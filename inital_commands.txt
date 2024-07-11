@@ -1,0 +1,27 @@
+npm create vite@latest fhir-patient-listing
+
+cd fhir-patient-listing
+npm install
+npm install -D tailwindcss postcss autoprefixer
+
+npm install axios
+npx tailwindcss init -p
+npm install @types/fhir
+npm install clsx
+
+npm install flowbite flowbite-svelte
+npm i -D flowbite-svelte-icons
+npm i short-uuid 
+npm install svelte-routing
+npm install uuid 
+
+code .
+
+
+
+
+
+
+-- npm install @sveltejs/kit 
+
+
