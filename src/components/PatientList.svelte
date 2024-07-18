@@ -4,12 +4,17 @@
   import type { Patient } from "fhir/r4";
   import clsx from "clsx";
   import { Button, Modal } from "flowbite-svelte";
-  import { SearchOutline, PlusOutline, EyeOutline } from "flowbite-svelte-icons";
+  import {
+    SearchOutline,
+    PlusOutline,
+    EyeOutline,
+  } from "flowbite-svelte-icons";
   import { fhirApi } from "../api";
-  import { patientStore, patients } from "../stores/patientStore";
-  
+  import { patientStore} from "../stores/patientStore";
 
   let npage = 0;
+
+  let patients = "";
 
   const fetchPatients = async (page: number) => {
     const patientResponse = await axios.get(`${fhirBaseUrl}/Patient`, {
@@ -20,7 +25,7 @@
         _offset: npage * 10,
       },
     });
-    const patients = patientResponse.data;
+    patients = patientResponse.data;
     return patients;
   };
 
@@ -99,7 +104,7 @@
   // ----- ADD Patient Modal Logic Code END ----- //
 
   // ----- Navigate to Patient Banner + Vitals --- START //
-  function goToPatientDetail(patient: { resource: Patient; }) {
+  function goToPatientDetail(patient: { resource: Patient }) {
     console.log("Selected patient: ", patient);
     const patientData = {
       id: patient?.resource.id,
@@ -112,21 +117,71 @@
     window.location.href = `/patient/${patient?.resource.id}/vitals`; // Navigate to the patient detail page
   }
   // ----- Navigate to Patient Banner + Vitals --- END //
+
+  // ----- Patient Search Logic START -----//
+  let patientName = "";
+  let patientPhone = "";
+  async function fetchPatientDataByName() {
+    try {
+      const response = await axios.get(`${fhirBaseUrl}/Patient`, {
+        params: { name: patientName },
+        headers: {
+          "Content-Type": "application/json",
+        }
+      });
+      console.log("Search Name Result",response.data);
+      patients = response.data.entry;
+    } catch (error) {
+      console.error("Error fetching patient data by name:", error);
+    }
+  }
+  async function fetchPatientDataByPhone() {
+    try {
+      const response = await axios.get(`${fhirBaseUrl}/Patient`, {
+        params: { phone: patientPhone },
+        headers: {
+          "Content-Type": "application/json",
+        }
+      });
+      console.log("Search Phone Result",response.data);
+    } catch (error) {
+      console.error("Error fetching patient data by phone:", error);
+    }
+  }
+  function handleSubmitByName() {
+    fetchPatientDataByName();
+  }
+  function handleSubmitByPhone() {
+    fetchPatientDataByPhone();
+  }
+  // ----- Patient Search Logic END -----//
 </script>
 
 <!-- Main User Interface -->
 <div class="max-w mx-auto">
   <div class="flex justify-between items-center mb-4">
-    <h1 class="text-3xl font-bold flex-shrink-0 mr-10">
+    <h1 class="text-3xl font-bold flex-shrink-0 mr-1">
       Patients on the Server
     </h1>
-    <form class="flex items-center gap-4 flex-grow ml-10">
+    <form class="flex items-center gap-4 flex-grow ml-7" on:submit|preventDefault={handleSubmitByName}>
       <input
         type="text"
-        placeholder="Search Patient"
-        class="mt-1 p-1 w-[25vw] h-[5vh] border border-gray-300 rounded"
+        placeholder="Patient Name"
+        class="mt-1 p-1 w-[15vw] h-[5vh] border border-gray-300 rounded"
+        id="patient-name" bind:value={patientName}
       />
-      <Button color="blue" class="!p-2">
+      <Button color="blue" class="!p-2" type="submit">
+        <SearchOutline class="w-6 h-6" />
+      </Button>
+    </form>
+    <form class="flex items-center gap-3 flex-grow ml-2" on:submit|preventDefault={handleSubmitByPhone}>
+      <input
+        type="text"
+        placeholder="Patient Phone"
+        class="mt-1 p-1 w-[15vw] h-[5vh] border border-gray-300 rounded"
+        id="patient-phone" bind:value={patientPhone}
+      />
+      <Button color="blue" class="!p-2" type="submit">
         <SearchOutline class="w-6 h-6" />
       </Button>
     </form>

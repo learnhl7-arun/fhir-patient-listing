@@ -5,6 +5,7 @@
   import { currentPath } from "../stores/pathStore";
   import { get } from 'svelte/store';
   import { onMount } from 'svelte';
+  import { CogOutline } from "flowbite-svelte-icons";
 
   import hypertension from '../assets/icons/hypertension.svg';
   import hypertension_active from '../assets/icons/hypertension_active.svg'
@@ -55,8 +56,9 @@
   // @ts-ignore
   $: patientId = get(patientStore).id;
 
-const isPatientSectionActive = () =>   window.location.pathname.startsWith("/patient/");
-  const isMasterSectionActive = () =>  window.location.pathname === "/patientList" ||  window.location.pathname.startsWith("/master/");
+  const isPatientSectionActive = () =>   window.location.pathname.startsWith("/patient/");
+  const isMasterSectionActive = () =>  window.location.pathname.startsWith("/master/");
+  const isConfigSectionActive = () => window.location.pathname.startsWith("/patientList");
 
 
 
@@ -138,6 +140,12 @@ const isPatientSectionActive = () =>   window.location.pathname.startsWith("/pat
         </ul>
       </div>
     {/if}
+    {#if isConfigSectionActive()}
+    <a href="/master/labServices" class="flex items-center config-link  {isActive('/master/labServices') ? 'active-link' : ''}">
+      <CogOutline alt="Config" class="w-6 h-6 mx-2 " />
+      <span >Config</span>
+    </a>
+    {/if}
     </ul>
   </nav>
 </aside> 
@@ -157,5 +165,15 @@ const isPatientSectionActive = () =>   window.location.pathname.startsWith("/pat
     width: 4px;
     height: 100%;
     background-color: #ee4d38;
+  }
+  .config-link {
+    position: absolute;
+    bottom: 30px;
+  }
+  .config-link:hover {
+    color: #ee4d38;
+    cursor: pointer;
+    position: absolute;
+    bottom: 30px;
   }
 </style>

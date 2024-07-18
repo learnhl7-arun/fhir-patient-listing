@@ -8,6 +8,7 @@
   import { currentPath } from "./stores/pathStore";
   import { get } from 'svelte/store';
   import { onMount } from "svelte";
+  import PatientLabRequest from "./components/PatientLabRequest.svelte";
 
 
   let showPatientHeader = get(currentPath).startsWith("/patient/");
@@ -59,6 +60,10 @@
         <Route
           path="/patient/:id/vitals"
           component={PatientVitals}
+        />
+        <Route
+          path="/patient/:id/labRequest"
+          component={PatientLabRequest}
         />
       </Router>
     </main>
