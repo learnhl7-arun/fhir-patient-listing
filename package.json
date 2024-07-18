@@ -30,6 +30,7 @@
     "flowbite-svelte": "^0.46.14",
     "short-uuid": "^5.2.0",
     "svelte-routing": "^2.13.0",
-    "uuid": "^10.0.0"
+    "uuid": "^10.0.0",
+    "uuid4": "^2.0.3"
   }
 }
