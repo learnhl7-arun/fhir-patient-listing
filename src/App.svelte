@@ -2,22 +2,22 @@
   import { Router, Route } from "svelte-routing";
   import LandingScreen from "./components/LandingScreen.svelte";
   import Sidebar from "./components/Sidebar.svelte";
-  import PatientBanner from "./components/PatientBanner.svelte";
-  import PatientVitals from "./components/PatientVitals.svelte";
-  import { patientStore } from "./stores/patientStore";
+  import PatientHeader from "./components/PatientHeader.svelte";
   import { currentPath } from "./stores/pathStore";
   import { get } from 'svelte/store';
+  import { patientStore } from './stores/patientStore';
   import { onMount } from "svelte";
+  import PatientVitals from "./components/PatientVitals.svelte";
   import PatientLabRequest from "./components/PatientLabRequest.svelte";
-
+  import DoctorsScreen from "./components/DoctorsScreen.svelte";
+  import LabServices from "./components/LabServices.svelte";
 
   let showPatientHeader = get(currentPath).startsWith("/patient/");
   currentPath.subscribe(value => {
     showPatientHeader = value.startsWith("/patient/");
   });
 
-
-  function handleGlobalClick(event: { target: any; }) {
+  function handleGlobalClick(event) {
     // Logic to determine the new patientId based on the click event
     const clickedElement = event.target;
     const newPatientId = clickedElement.dataset.patientId;
@@ -34,9 +34,6 @@
       document.removeEventListener('click', handleGlobalClick);
     };
   });
-
-
-
 </script>
 
 <div class="bg-base-layer h-screen w-screen relative">
@@ -53,7 +50,7 @@
 
     <main class="flex-1 flex flex-col">
       {#if showPatientHeader}
-        <PatientBanner/>
+        <PatientHeader />
       {/if}
       <Router>
         <Route path="/patientList" component={LandingScreen} />
@@ -65,6 +62,21 @@
           path="/patient/:id/labRequest"
           component={PatientLabRequest}
         />
+        <Route
+          path="/master/doctor"
+          component={DoctorsScreen}
+        />
+        <Route
+          path="/master/labServices"
+          component={LabServices}
+        />
+        
+        <!-- <Route
+        path="/master/medicationsList"
+        component={MedicationMaster}
+      /> -->
+
+      
       </Router>
     </main>
   </div>

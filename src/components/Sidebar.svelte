@@ -7,6 +7,7 @@
   import { onMount } from 'svelte';
   import { CogOutline } from "flowbite-svelte-icons";
 
+
   import hypertension from '../assets/icons/hypertension.svg';
   import hypertension_active from '../assets/icons/hypertension_active.svg'
   import loinc from '../assets/icons/loinc.svg';
@@ -31,14 +32,12 @@
   });
 
   // Function to navigate to a new path and update currentLocation
-  // @ts-ignore
   function navigateTo(path) {
     navigate(path);
   
     currentPath.set(path);
   }
 
-  // @ts-ignore
   function goToHome(event) {
     event.preventDefault();
     patientStore.set({ id: "", name: "", birthDate: "", gender: "" });
@@ -47,19 +46,16 @@
   }
 
   // Function to check if the current navlink is active
-  // @ts-ignore
   function isActive(path) {
     return currentLocation.startsWith(path);
   }
 
   // Ensure patientId is fetched from patientStore on reload
-  // @ts-ignore
   $: patientId = get(patientStore).id;
 
-  const isPatientSectionActive = () =>   window.location.pathname.startsWith("/patient/");
-  const isMasterSectionActive = () =>  window.location.pathname.startsWith("/master/");
-  const isConfigSectionActive = () => window.location.pathname.startsWith("/patientList");
-
+const isPatientSectionActive = () =>   window.location.pathname.startsWith("/patient/");
+const isMasterSectionActive = () =>  window.location.pathname.startsWith("/master/");
+const isConfigSectionActive = () => window.location.pathname.startsWith("/patientList");
 
 
   onMount(() => {
@@ -105,12 +101,6 @@
               <span class="ml-2">Observation</span>
             </a>
           </li>
-          <li class="my-4 ml-2">
-            <a href={`/patient/${patientId}/medOrders`} class="flex items-center {isActive(`/patient/${patientId}/medOrders`) ? 'active-link' : ''}">
-              <img src={isActive(`/patient/${patientId}/medOrders`) ? medicine_bottle_active: medicine_bottle} alt="Med Orders" class="w-6 h-6" />
-              <span class="ml-2">Med Orders</span>
-            </a>
-          </li>
         </ul>
       </div>
     {/if}
@@ -131,15 +121,10 @@
               <span class="ml-2">Doctor</span>
             </a>
           </li>
-          <li class="mb-4 ml-2">
-            <a href="/master/medicationsList" class="flex items-center {isActive('/master/medicationsList') ? 'active-link' : ''}">
-              <img src={medicalBook} alt="Medications List" class="w-6 h-6" />
-              <span class="ml-2">Medications List</span>
-            </a>
-          </li>
         </ul>
       </div>
     {/if}
+
     {#if isConfigSectionActive()}
     <a href="/master/labServices" class="flex items-center config-link  {isActive('/master/labServices') ? 'active-link' : ''}">
       <CogOutline alt="Config" class="w-6 h-6 mx-2 " />
@@ -151,8 +136,11 @@
 </aside> 
 
 <style>
-  .button:hover {
+  .config-link:hover {
     color: #ee4d38;
+    cursor: pointer;
+    position: absolute;
+    bottom: 30px;
   }
   .active-link {
     color: #ee4d38;
@@ -166,14 +154,10 @@
     height: 100%;
     background-color: #ee4d38;
   }
+
   .config-link {
     position: absolute;
     bottom: 30px;
   }
-  .config-link:hover {
-    color: #ee4d38;
-    cursor: pointer;
-    position: absolute;
-    bottom: 30px;
-  }
+
 </style>

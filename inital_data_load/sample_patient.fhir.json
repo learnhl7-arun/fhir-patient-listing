@@ -1,0 +1,71 @@
+{
+    "resourceType": "Patient",
+    "identifier": [
+        {
+            "type": {
+                "coding": [
+                    {
+                        "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                        "code": "MR"
+                    }
+                ]
+            },
+            "system": "http://emr.testhospital.com/mrn",
+            "value": "MRN-0002"
+        },
+        {
+            "type": {
+                "coding": [
+                    {
+                        "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                        "code": "SS"
+                    }
+                ]
+            },
+            "value": "690-09-5367"
+        }
+    ],
+    "name": [
+        {
+            "prefix": [
+                "Mr."
+            ],
+            "given": [
+                "Charles",
+                "J"
+            ],
+            "family": "Doyon",
+            "use": "usual",
+            "text": "LXg0zshsD7-IGB2L56Qo8"
+        }
+    ],
+    "gender": "male",
+    "birthDate": "1989-12-18",
+    "address": [
+        {
+            "line": [
+                "4799 Rockford Mountain Lane"
+            ],
+            "city": "Durham",
+            "state": "North Carolina",
+            "postalCode": "27701",
+            "country": "United States"
+        }
+    ],
+    "telecom": [
+        {
+            "system": "email",
+            "value": "charlesjdoyon@cuvox.de"
+        },
+        {
+            "system": "phone",
+            "value": "919-956-4217"
+        }
+    ],
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/patient-mothersMaidenName",
+            "valueString": "Coleman"
+        }
+    ]
+}
